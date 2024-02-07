@@ -1,4 +1,5 @@
 import re
+from http import HTTPStatus
 
 from flask import jsonify, request
 
@@ -41,7 +42,7 @@ def get_opinion(short_id):
     print(short_id)
     url_in_db = URLMap.query.filter_by(short=short_id).first()
     if url_in_db is None:
-        raise InvalidAPIUsage('Указанный id не найден', 404)
+        raise InvalidAPIUsage('Указанный id не найден', HTTPStatus.NOT_FOUND)
     return jsonify({
         'url': url_in_db.to_dict()['original'],
     }), 200

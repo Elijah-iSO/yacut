@@ -2,6 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, URLField
 from wtforms.validators import DataRequired, Length, Optional, Regexp
 
+from settings import CUSTOM_ID_FORM_VALIDATORS
+
 
 class URLForm(FlaskForm):
 
@@ -16,9 +18,11 @@ class URLForm(FlaskForm):
         validators=[
             Optional(),
             Regexp(
-                '^[a-zA-Z0-9]+$', message='используйте a-z, A-Z, 0-9'
+                CUSTOM_ID_FORM_VALIDATORS['regexp'], message='используйте a-z, A-Z, 0-9'
             ),
-            Length(max=16, message='до 16 символов'),
+            Length(
+                max=CUSTOM_ID_FORM_VALIDATORS['length'], message='до 16 символов'
+            ),
         ]
     )
     submit = SubmitField('Создать')
